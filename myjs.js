@@ -44,39 +44,47 @@ window.onload = function(){
 			console.log(new Date - startTime);
 		}
 		else if(new Date - startTime > 1300){
-			var gfg = setInterval(function(){
+
+			function makeChange(){
+				var k = 0 ;
+
+				var gfg = setInterval(function(){
+
+						closeAndOpen(1);
+						k++;
+
+						if(k==2){
+							var time = Math.random()*2200+500;
+							//alert(time);
+							clearInterval(gfg);
+							setTimeout(function(){
+								makeChange();
+							},time)
+
+							
+						}
+
+					},400);
+				clearInterval(timer);
+			}
+			makeChange()
+	
+			//var x = 100;
+			//function change(p){
+				//setTimeout(function(){
 					closeAndOpen(1);
-				},400);
-			clearInterval(timer);	
+
+
+					//x = Math.random()*300+100;
+					//change(x);
+				//},100)
+			//}
+			//change(x);
+
+			
 		}
 	},0);
 
-	function fxxk(context, xPos, yPos, a, b,c){
-		
-			//console.log(11)
-			if( b == 150 ){
-				b =50;
-				setTimeout(function(){
-					ParamDouble(context, xPos, yPos, a, b,c);
-
-					setTimeout(function(){
-						fxxk(context, xPos, yPos, a, b,c);
-					},50)
-				},500)
-			}else {
-				b = 150;
-				setTimeout(function(){
-					ParamDouble(context, xPos, yPos, a, b,c);
-
-					setTimeout(function(){
-						fxxk(context, xPos, yPos, a, b,c);
-					},50)
-				},30)
-			}
-			
-			
-		
-	}
 
 
 	function ParamEllipse(context, x, y, a, b,drawlineW){
@@ -176,7 +184,7 @@ window.onload = function(){
 	};
 
 
-		function closeAndOpen(scaleNum){
+	function closeAndOpen(scaleNum){
 			
 		 	//alert("c")
 		 	
@@ -187,8 +195,12 @@ window.onload = function(){
 
 		 			setTimeout(function(){
 		 					ParamDoubleScale(context, xPos, yPos, a, b,10,scaleNum*10);
+
+		 					//setTimeout(function(){
+		 						//ParamDoubleScale(context, xPos, yPos, a, b,10,scaleNum);
+		 					//},100)
 		 				},200)
-		 			},200);
+		 			},300);
 	};
 
 	function ParamDoubleScale(context, x, y, a, b,drawlineW,scaleNum){
