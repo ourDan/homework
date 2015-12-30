@@ -1,22 +1,21 @@
 //myjs
 
 window.onload = function(){
-	alert("start")
+	//alert("start")
 	var startTime = new Date; //记录一开始的时间 
 	var fireCount = 0;  // 记录状态的对象
 	var context =  document.getElementById("pic").getContext('2d'), // 得到画布并使用2d方法先；
 		xPos = 500,
 		yPos = 300,
-		a,b; // 椭圆的参数值，x，y圆心，a,b表示横轴纵轴   怎么说这个是网上找的画椭圆的方法1，效率一般后面可以考虑重新参考椭圆方程和园的方程
+		a,b; // 椭圆的参数值，x，y圆心，a,b表示横轴纵轴尺寸   怎么说这个是网上找的画椭圆的方法1，效率一般后面可以考虑重新参考椭圆方程和园的方程
 	document.getElementById("pic").width=1000;
 	document.getElementById("pic").height=800;							
 
 
 	var timer = setInterval(function(){  // 直接使用线程事件方法 
 		//console.log(new Date - startTime);
-		
-		// 整体思路就是 一直在改变参数 a,b  应该也在可以累加中间的圆心; 
 
+		// 整体思路就是 一直在改变参数 a,b  应该也在可以累加中间的圆心; 
 		if (new Date - startTime  > 300 && new Date - startTime  <310  ){ // 因为setInterval的误差性，时间线卡的不好  稍微等待一下应该开始画圆了
 			a = 150;
 			b =	40; // 初始值\
@@ -46,18 +45,46 @@ window.onload = function(){
 			console.log(new Date - startTime);
 		}
 		else if(new Date - startTime > 1300){
-			if( b = 150 && b > 40){
-				b = b - 0.5;
-				c = 4;
-			}else {
-				b = b + 0.5 ;
-			}
-			ParamDouble(context, xPos, yPos, a, b,c)
+
+			
+				fxxk(context, xPos, yPos, a, b,c);
+			clearInterval(timer);
+			console.log(new Date - startTime);
+
+		
+			
 
 		}
 
 
-	},10)
+	},0);
+
+	function fxxk(context, xPos, yPos, a, b,c){
+		
+			//console.log(11)
+			if( b == 150 ){
+				b =50;
+				setTimeout(function(){
+					ParamDouble(context, xPos, yPos, a, b,c);
+
+					setTimeout(function(){
+						fxxk(context, xPos, yPos, a, b,c);
+					},50)
+				},500)
+			}else {
+				b = 150;
+				setTimeout(function(){
+					ParamDouble(context, xPos, yPos, a, b,c);
+
+					setTimeout(function(){
+						fxxk(context, xPos, yPos, a, b,c);
+					},50)
+				},30)
+			}
+			
+			
+		
+	}
 
 
 	function ParamEllipse(context, x, y, a, b,drawlineW){
@@ -155,6 +182,19 @@ window.onload = function(){
 		context.closePath();
 		context.stroke();
 	};
-
-
 }
+
+/*这次recode是需要重新写时间线 要保证在1000ms的时候，调用那两个关于压缩变化函数 
+
+window.onload = function(){
+	var startTime = new Date; //记录一开始的时间 
+	var fireCount = 0;  // 记录状态的对象
+	var context =  document.getElementById("pic").getContext('2d'), // 得到画布并使用2d方法先；
+		xPos = 500,
+		yPos = 300,
+		a,b; // 椭圆的参数值，x，y圆心，a,b表示横轴纵轴尺寸   怎么说这个是网上找的画椭圆的方法1，效率一般后面可以考虑重新参考椭圆方程和园的方程
+	document.getElementById("pic").width=1000;
+	document.getElementById("pic").height=800;	
+
+
+}*/
