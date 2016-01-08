@@ -44,7 +44,6 @@ window.onload = function(){
 			console.log(new Date - startTime);
 		}
 		else if(new Date - startTime > 1300){
-
 			function makeChange(){
 				var k = 0 ;
 
@@ -67,25 +66,20 @@ window.onload = function(){
 					},400);
 				clearInterval(timer);
 			}
+	
 			makeChange()
 	
 			//var x = 100;
 			//function change(p){
-				//setTimeout(function(){
-					closeAndOpen(1);
-
-
-					//x = Math.random()*300+100;
-					//change(x);
-				//},100)
-			//}
+			//setTimeout(function(){
+			closeAndOpen(1);
+			//x = Math.random()*300+100;
 			//change(x);
-
-			
+			//},100)
+			//}
+			//change(x);	
 		}
 	},0);
-
-
 
 	function ParamEllipse(context, x, y, a, b,drawlineW){
 	   //max是等于1除以长轴值a和b中的较大者
@@ -246,14 +240,11 @@ window.onload = function(){
 		context.beginPath();
 		context.lineWidth = drawlineW;
 		context.strokeStyle = "white"
-
 		context.shadowBlur=80;
 		context.shadowColor="#00C6ED";
 
 		context.moveTo(x + a, y); //从椭圆的左端点开始绘制
-
 		for (var i = 0; i < 2 * Math.PI; i += step){
-
 		   //参数方程为x = a * cos(i), y = b * sin(i)，
 		   //参数为i，表示度数（弧度）
 		   context.lineTo(x + a * Math.cos(i), y + b * Math.sin(i));
