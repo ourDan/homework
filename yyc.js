@@ -1,28 +1,18 @@
 window.onload = function(){
 
-    // 先说一下这个 整体是个什么样的思路 首先写两个基础函数 funDrawBorder && functionDrawCenter
-    
+    //先说一下这个 整体是个什么样的思路 首先写两个基础函数 funDrawBorder && functionDrawCenter
     //扑街 我得去终于把背景颜色铺好了
+    
     //接下来先把宽高都设置了
     document.getElementById("picBorder").width = 600;
-    document.getElementById("picBorder").height = 600;
+                                        .height = 600;
     document.getElementById("picCenter").width = 600;
-    document.getElementById("picCenter").height = 600;
+                                        .height = 600;
 
     var ctxBorder = document.getElementById("picBorder").getContext("2d"); 
     var ctxCenter = document.getElementById("picCenter").getContext("2d");
-
-    //然后就是得开始绘制 先画一个圆心模糊的 
-    //getCenterFill("(255,255,255)",150,ctxCenter,300,300);
-    //然后就是画一个外框 
-    //getBoderCircle("rgb(255,255,255)",200,6,ctxBorder,300,300)
-    //
-    //
-    
-    //一个调用 我也不知道是怎么去称呼这个效果 
-    //followToBorder()
   
-     //这个是中间的圆的渐变填充 先先这么写出来  
+    //这个是中间的圆的渐变填充 先先这么写出来  
 
     // 接下来就是激动人心的 动画效果--跟随 
     function followToBorder(){
