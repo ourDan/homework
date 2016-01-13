@@ -95,14 +95,11 @@ function easyOpenAndClose(changeNums,times,long,targets){ // 这个是没有 外
     }
 }
 
-function singleMove(changeNums,targets,long){ // 这里指的是 单个target或 多个target，但是具有相同的[[xo,x1],[y0,y1]]的这种 要不然实在是没有必要都写进同一个吧 
-    console.log(changeNums,"this is changeNums")    
-
+function singleMove(changeNums,target,long){ // 这里指的是 单个target或 多个target，但是具有相同的[[xo,x1],[y0,y1]]的这种 要不然实在是没有必要都写进同一个吧 
     var position;
     var target;
     var tweenToLeft,tweenToRight;
-    var xValue = changeNums[0],
-        yValue = changeNums[1];
+    var xp,yp;
     console.log(xValue,yValue)
 
     init();
@@ -114,6 +111,7 @@ function singleMove(changeNums,targets,long){ // 这里指的是 单个target或
                     .to({x:changeNums[0][1],y:changeNums[1][1]},long)  // 不知道为什么 动画效果受到时间的影响太多 太多     
                     .easing(TWEEN.Easing.Quartic.In)
                     .onUpdate(update);
+
         tweenToLeft.start();    
     } 
 
@@ -123,24 +121,24 @@ function singleMove(changeNums,targets,long){ // 这里指的是 单个target或
     }
 
     function update(){
-        for(var i = 0,len = targets.length;i<len;i++){
-            targets[i].style.width = 600 + "px";
-            targets[i].style.height = 600 + "px";
-            targets[i].style.left = position.x + "px";
-            targets[i].style.top = position.y + "px";
-        }
-        
-        //getFollowBorderCircle("rgb(255,255,255)",150,6,ctxBorder,300,300,1-(position.x / 150));
+        target.style.width = 300 + "px";
+        target.style.height = 300 + "px";
+        target.style.left = position.x + 150   + "px";
+        target.style.top = position.y + 150 + "px";
+
+        getFollowBorderCircle("rgb(255,255,255)",100,6,ctxBorder,300,300,1-(position.x / 150));
 
         if(position.x == xValue){
             tweenToLeft.stop();
+            //alert(" i need next ")
+            //openAndClose(); 直接用openAndClose是不管用的 应因为这个数据状态没有 接上  简直 这个 如何传递 canvas的状态 这个真的很重要 一点儿也不含糊
         }
     }
     //  接下来 是 写 如何 在 现有基础上面的 闭眼 开眼  考虑解耦 不直接去写 闭眼 开眼 放弃chain(another这样的写法) 全部解除 然后 
 }
 
 function lotsMove(changes,long){  // cahnges = [{target:node1,changeArray:[[x0,x1],[y0,y1]]},{},.....{}]
-    // 这个先别写这么 别开太多坑
+    // 这个先别写这么 别开太多坑 
 }
 
 // 一个基础的函数  主要根据参数 来 控制 变大或者 变小 但是挤压却可以拆解为x轴变大，y轴变大 ，或者等比例变大，亦或是不等比例变大，所以说，变化参数的抽象能力很重要
@@ -369,7 +367,6 @@ function getFollowBorderCircle(rgbv,r,lineWidth,context,xPos,yPos,a1){
     //传入参数分别是 颜色 边框圆弧的r 线宽 都熟 横坐标 纵坐标  a1 b1 a2 b2 分别是a代表x轴的缩放 b代表y轴的缩放 
     //那么就是得按照画椭圆的写法 横轴 纵轴的长度 r*a1 r*a2  
     //
-    //console.log(context)
     function drawBorderByLinewidth(a){
         var x = a?a:1;
         context.clearRect(0,0,600,600);
