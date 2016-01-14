@@ -95,11 +95,14 @@ function easyOpenAndClose(changeNums,times,long,targets){ // 这个是没有 外
     }
 }
 
-function singleMove(changeNums,target,long){ // 这里指的是 单个target或 多个target，但是具有相同的[[xo,x1],[y0,y1]]的这种 要不然实在是没有必要都写进同一个吧 
+function singleMove(changeNums,targets,long){ // 这里指的是 单个target或 多个target，但是具有相同的[[xo,x1],[y0,y1]]的这种 要不然实在是没有必要都写进同一个吧 
+    console.log(changeNums,"this is changeNums")    
+
     var position;
     var target;
     var tweenToLeft,tweenToRight;
-    var xp,yp;
+    var xValue = changeNums[0],
+        yValue = changeNums[1];
     console.log(xValue,yValue)
 
     init();
@@ -111,7 +114,6 @@ function singleMove(changeNums,target,long){ // 这里指的是 单个target或 
                     .to({x:changeNums[0][1],y:changeNums[1][1]},long)  // 不知道为什么 动画效果受到时间的影响太多 太多     
                     .easing(TWEEN.Easing.Quartic.In)
                     .onUpdate(update);
-
         tweenToLeft.start();    
     } 
 
@@ -121,24 +123,66 @@ function singleMove(changeNums,target,long){ // 这里指的是 单个target或 
     }
 
     function update(){
-        target.style.width = 300 + "px";
-        target.style.height = 300 + "px";
-        target.style.left = position.x + 150   + "px";
-        target.style.top = position.y + 150 + "px";
-
-        getFollowBorderCircle("rgb(255,255,255)",100,6,ctxBorder,300,300,1-(position.x / 150));
+        for(var i = 0,len = targets.length;i<len;i++){
+            targets[i].style.width = 600 + "px";
+            targets[i].style.height = 600 + "px";
+            targets[i].style.left = position.x + "px";
+            targets[i].style.top = position.y + "px";
+        }
+        
+        //getFollowBorderCircle("rgb(255,255,255)",150,6,ctxBorder,300,300,1-(position.x / 150));
 
         if(position.x == xValue){
             tweenToLeft.stop();
-            //alert(" i need next ")
-            //openAndClose(); 直接用openAndClose是不管用的 应因为这个数据状态没有 接上  简直 这个 如何传递 canvas的状态 这个真的很重要 一点儿也不含糊
         }
     }
     //  接下来 是 写 如何 在 现有基础上面的 闭眼 开眼  考虑解耦 不直接去写 闭眼 开眼 放弃chain(another这样的写法) 全部解除 然后 
 }
 
-function lotsMove(changes,long){  // cahnges = [{target:node1,changeArray:[[x0,x1],[y0,y1]]},{},.....{}]
-    // 这个先别写这么 别开太多坑 
+function lotsMove(changeNums,target,long){  // cahnges = [{target:node1,changeArray:[[x0,x1],[y0,y1]]},{},.....{}]
+    // 这个先别写这么 别开太多坑
+    // 结果还是去吧坑填了 
+    //console.log(changeNums,"this is changeNums") ;
+    var position;
+    var target;
+    var tweenToLeft,tweenToRight;
+    var xValue = changeNums[0],
+        yValue = changeNums[1];
+    //console.log(xValue,yValue)
+
+    init();
+    animateA();
+
+    function init(){ 
+        position = {x:changeNums[0][0],y:changeNums[1][0]};
+        tweenToLeft = new TWEEN.Tween(position)
+                    .to({x:changeNums[0][1],y:changeNums[1][1]},long)  // 不知道为什么 动画效果受到时间的影响太多 太多     
+                    .easing(TWEEN.Easing.Quartic.InOut)
+                    .onUpdate(update);
+        tweenToLeft.start();    
+    } 
+
+    function animateA(time){
+        requestAnimationFrame(animateA);
+        TWEEN.update(time);
+    }
+
+    function update(){
+        
+            target.style.width = 600 + "px";
+            target.style.height = 600 + "px";
+            target.style.left = position.x + "px";
+            target.style.top = position.y + "px";
+            console.log(position.x,position.y,"my next position")
+        
+        
+        //getFollowBorderCircle("rgb(255,255,255)",150,6,ctxBorder,300,300,1-(position.x / 150));
+        getFollowBorderCircle("rgb(255,255,255)",150,6,ctxBorder,position.x,position.y)
+        if(position.x == changeNums[0][1]){
+            tweenToLeft.stop();
+            //alert("i am in position")
+        }
+    } 
 }
 
 // 一个基础的函数  主要根据参数 来 控制 变大或者 变小 但是挤压却可以拆解为x轴变大，y轴变大 ，或者等比例变大，亦或是不等比例变大，所以说，变化参数的抽象能力很重要
@@ -362,11 +406,49 @@ function getCenterFill(rgbV1,r,context,xPos,yPos){ //给一个什么参数，颜
      context.closePath();
 }
 
-//这个就是跟随用的动画的外边框用的 
-function getFollowBorderCircle(rgbv,r,lineWidth,context,xPos,yPos,a1){ 
+//这个就是跟随用的动画的外边框用的      
+//function getFollowBorderCircle(rgbv,r,lineWidth,context,xPos,yPos,a1){ 
+    // 还得修改 这次要实现的是时实的跟新 
+function getFollowBorderCircle(rgbv,r,lineWidth,context,x1,y1){ // a1这个参数需要好好搞一搞 实在是 有些 
+   /* function getScaleFromXY(x,y){
+        var a = Math.atan(x/y) < 0 ? Math.atan(x/y) + Math.PI :Math.atan(x/y) ;
+        return a
+    }*/
+    //alert("ii")
+    /* 怎么说 这里是 x>0  x<0 这里的问题 , 
+
+
+
+    /* 那个  先把 精准跟随的事情放到后面 先出一个粗略的 
+    function getScaleFromXY(x,y){
+        // 这四个筛选的目的就是说为了 搞定  这个角度的问题 现在 是 因为 Math.atan() 只能返回 -PI/2 ~ PI/2 之间 
+        if(x > 0 && y > 0 ){ // 说明返回的是第一象限
+            return Math.atan(y/x)+Math.PI/2;
+        }
+        else if( x < 0 && y > 0){ // 说明在第二象限
+            return -Math.atan(y/x)+Math.PI
+        }
+        else if( x < 0 && y > 0){
+            return Math.atan(y/x)+Math.PI*1.5
+        }
+        else if( x > 0 && y < 0){
+            return -Math.atan(y/x)
+        }
+
+    }
+    var scaleNum = getScaleFromXY(x1,y1)  // 现在的问题在 这里会 返回 -P/2 - p /2 的值 ，但是 
+    */
+    //console.log(scaleNum,"scaleNum")
     //传入参数分别是 颜色 边框圆弧的r 线宽 都熟 横坐标 纵坐标  a1 b1 a2 b2 分别是a代表x轴的缩放 b代表y轴的缩放 
     //那么就是得按照画椭圆的写法 横轴 纵轴的长度 r*a1 r*a2  
-    //
+    var a1 = 1-((Math.sqrt(x1*x1+y1*y1))*0.5/r) ;
+    
+    //var a1 = 0.8;
+    //console.log(a1,"a1")
+    //console.log(context)
+    //context.translate(300+(window.screen.width-600)/2,300)
+    //context.rotate(scaleNum);
+    
     function drawBorderByLinewidth(a){
         var x = a?a:1;
         context.clearRect(0,0,600,600);
@@ -376,12 +458,12 @@ function getFollowBorderCircle(rgbv,r,lineWidth,context,xPos,yPos,a1){
         context.strokeStyle = "rgba(255,255,255,0.19)";
         context.shadowBlur=24; 
         context.shadowColor="white";
-        context.arc(xPos,yPos,r,0,Math.PI*2,false);
+        context.arc(300,300,r,0,Math.PI*2,false);
         context.stroke();
         context.closePath();
     }
 
-    if (arguments.length < 7){ //那就是参数没有传递够 说明只需要一层 那就正好 
+    if (arguments.length < 6){ //那就是参数没有传递够 说明只需要一层 那就正好 
         drawBorderByLinewidth(1);
     }
     else{
@@ -391,6 +473,7 @@ function getFollowBorderCircle(rgbv,r,lineWidth,context,xPos,yPos,a1){
         //螺旋线绘制椭圆  drawBorderByLinewidth(1);
         context.clearRect(0,0,600,600);
         drawBorderByLinewidth(1);
+        
         context.beginPath();
         context.restore();
         var b = r;
@@ -401,17 +484,37 @@ function getFollowBorderCircle(rgbv,r,lineWidth,context,xPos,yPos,a1){
         context.shadowBlur=80;
         context.shadowColor="#00C6ED";
 
-        context.moveTo(xPos , yPos+b); //从椭圆的左端点开始绘制
+        //context.moveTo(300, 300+b); //从椭圆的左端点开始绘制
 
-        for (var i = 0.5*Math.PI; i < 1.5*Math.PI; i += step){
-            //参数方程为x = a * cos(i), y = b * sin(i)，
-            //参数为i，表示度数（弧度）
-            context.lineTo(xPos + a * Math.cos(i), yPos + b * Math.sin(i));
+        // 问题就来了 这里面的 角度的转化  如何实现的 要看看怎么把 参数写 出去 就是说 基本思路 就是 ，得知道 这个劣弧start的 角度 ，然后是end的角度 接下里 
+        // 就是  
+        // 用if判断喽
+        if(x1>0 ){ // 向右
+            context.moveTo(300, 300+b)
+            for (var i = 0.5*Math.PI; i < 1.5*Math.PI; i += step){
+                //参数方程为x = a * cos(i), y = b * sin(i)，
+                //参数为i，表示度数（弧度）
+                context.lineTo(300 + a * Math.cos(i), 300 + b * Math.sin(i));
+            }
+            //context.closePath();
+            context.arc(300,300,r,1.5*Math.PI,0.5*Math.PI,false);
+            
+
+            context.stroke();
+        }else { // 向左
+            for (var i = 1.5*Math.PI; i < 2.5*Math.PI; i += step){
+                //参数方程为x = a * cos(i), y = b * sin(i)，
+                //参数为i，表示度数（弧度）
+                context.lineTo(300 + a * Math.cos(i), 300 + b * Math.sin(i));
+            }
+            //context.closePath();
+            context.arc(300,300,r,2.5*Math.PI,1.5*Math.PI,false);
+            
+
+            context.stroke();
         }
-        //context.closePath();
-        context.arc(xPos,yPos,r,1.5*Math.PI,0.5*Math.PI,false);
-        //context.translate(600,1600)
-        //context.rotate(2);
-        context.stroke();
+
+        
     }
+   
 }
