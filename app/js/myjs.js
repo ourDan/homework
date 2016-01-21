@@ -187,8 +187,124 @@
     
     }
 
-    
-    //------------------------------------------------------------------
+   
+
+        function drawThreeCircle(fxp){  // firstCircleXPos  就是第一个 的， 0 < fxp < 320 ;因为这里写的方法是 
+            
+            ctxCenter.beginPath();
+            ctxCenter.closePath();
+             
+            //console.log("draw");
+            //console.log(ctxCenter.clearRect)
+            //ctxCenter.restore();
+            var fxpArr = [] ; //单三个小球的位置就这么存了
+            for(var j = 0 ;j < 3 ;j++){
+                var t = fxp+j*(100);
+                t = (t > 320) ? (t-320) : t;
+                fxpArr.push(t); 
+            }
+
+
+
+            // 每次运行的时候 要把中间的 函数 写空 
+            //ctxCenter.fillStyle = "rgba(25,25,25,0.3)";
+           
+           /* for (var i = 0; i < 3; i++) {  // 开使画三个圆 
+                ctxCenter.clearRect(0,0,480,480);
+                if(fxpArr[i] <= 80 ){  // 第一圆的球 
+
+                    var r = -(fxpArr[i]/80 )*10 + 30 ;  // 半径
+                    //var r = 20;
+                    var xPos = fxpArr[i] +240 ; 
+                    //console.log(r,xPos,1);
+                }else if(fxpArr[i] > 80 && fxpArr[i] <= 160){
+                    var r = ((fxpArr[i]-80) / 80 )*10+20;
+                    //var r = 20;
+                    var xPos = 320 - (fxpArr[i]-80);
+                    //console.log(r,xPos,2);
+                }else if(fxpArr[i] > 160 && fxpArr[i] <240){
+                    var r = ((fxpArr[i] - 160) / 80)*10 +20;
+                    //var r = 20;
+                    var xPos =240 -  (fxpArr[i] - 160) ;
+                    //console.log(r,xPos,3);
+                }else if(fxpArr[i] >= 240 && fxpArr[i] < 320){
+                    var r = ((fxpArr[i] - 240) / 80)*10 +20;
+                    //var r = 20;
+                    var xPos =240 -  (fxpArr[i] - 240) ;
+                    //console.log(r,xPos,4);
+                }
+*/
+                // 还不能用 for循环；来写 
+
+/*
+                console.log(fxpArr[i],xPos)
+                ctxCenter.arc(xPos,240,r,0,2*Math.PI);
+
+                ctxCenter.fill();
+
+                ctxCenter.closePath();
+*/
+            };          
+        
+
+       //------------------------------------------------------------------
+ 
+
+    //
+
+    function sendMessage(){
+        drawBorder();
+
+        //分两步 走 第一步 外轮廓
+        var position;
+        //
+        var scaleA;
+            //tweenToRight;
+        init();
+        animate();
+
+        function init(){ 
+            position = {c:0};
+            scaleA = new TWEEN.Tween(position)
+                        .to({c:360},2600)  // 不知道为什么 动画效果受到时间的影响太多 太多           
+                        //.yoyo(true)                                                 
+                        .easing(TWEEN.Easing.Quartic.InOut)
+                        .onUpdate(updateA)
+                        .repeat(0);
+            scaleA.start();  
+        }
+
+        function animate(time){
+            requestAnimationFrame(animate);
+            TWEEN.update(time);
+        }
+
+        function updateA(){
+            //关于 center的 变化的 操作
+           
+            //console.log(ctxCenter)
+            //
+            //drawThreeCircle(position.c);
+            //ctxCenter.clearRect(240,240,480,480); 
+            get1(position.c);  // 这个能跑 说明 什么 ，说明啊 就是说 那个问题还好 并非是策略问题 
+            /*if(position.ry == 240){
+                scaleA.stop();
+            } 
+            */   
+           console.log(position.c)
+           if(position.c == 320){
+            //console.log("stop")
+            scaleA.stop();
+           
+            //drawThreeCircle(position.c)
+
+           }           
+        }
+    }
+
+    sendMessage()
+
+  
 
     //然后就是该考虑下如何解决 这个加载机制的问题
     // 第一次还是建立在jQuery的基础上 
@@ -208,7 +324,7 @@
     //surprise();
     
     //
-    smile();
+    //smile();
     
     // 开始制作接受 分发 运行 
     // 今天要完成的测试功能 就是 能够根据命令写动作 

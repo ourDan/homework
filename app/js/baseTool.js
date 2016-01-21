@@ -422,6 +422,88 @@ function getDoubleBorderCircle(rgbv,r,lineWidth,context,xPos,yPos,a1){
     }
 }
 
+function get1(a){ 
+    //传入参数分别是 颜色 边框圆弧的r 线宽 都熟 横坐标 纵坐标  a1 b1 a2 b2 分别是a代表x轴的缩放 b代表y轴的缩放 
+    //那么就是得按照画椭圆的写法 横轴 纵轴的长度 r*a1 r*a2  
+   
+
+        //drawBorderByLinewidth(1.4);
+        // shit是 里面那个被更严重压缩了 
+        //螺旋线绘制椭圆  drawBorderByLinewidth(1);
+        //
+        console.log(a);
+        ctxCenter.clearRect(0,0,600,600);
+
+
+       var  arr = [] ; //单三个小球的位置就这么存了
+       for(var j = 0 ;j < 3 ;j++){
+           var t = a+j*(105);
+           t = (t > 320) ? (t-320) : t;
+          arr.push(t); 
+       }
+
+        //var arr = [a,a+80,a+160];
+
+        for(var i =0 ;i<3;i++){
+            var x = calculateX (arr[i]);
+            console.log(x)
+            ctxCenter.beginPath();
+            ctxCenter.restore();
+            ctxCenter.arc(x,240,25,0,Math.PI*2,true);
+            ctxCenter.fillStyle="rgba(255,255,255,0.7)";
+            ctxCenter.fill();
+            ctxCenter.closePath();
+            //ctxCenter.stroke();
+        };
+        
+
+
+        function calculateX(e){
+
+            if(e <= 80 ){  // 第一圆的球 
+
+                //var r = -(e/80 )*10 + 30 ;  // 半径
+                //var r = 20;
+                return (e +240 ); 
+                //console.log(r,xPos,1);
+            }else if(e > 80 && e <= 160){
+               //var r = ((e-80) / 80 )*10+20;
+                //var r = 20;
+               return( 320 - (e-80));
+                //console.log(r,xPos,2);
+            }else if(e > 160 && e <240){
+                //var r = ((e - 160) / 80)*10 +20;
+                //var r = 20;
+                return (240 -  (e - 160) );
+                //console.log(r,xPos,3);
+            }else if(e >= 240 && e < 320){
+                //var r = ((e - 240) / 80)*10 +20;
+                //var r = 20;
+                return (240 -  (e - 240) );
+                //console.log(r,xPos,4);
+            }
+
+        }
+}
+
+function drawBorder(){
+    console.log(1);
+    ctxBorder.beginPath();
+    ctxBorder.clearRect(240,240,480,480);
+    ctxBorder.arc(240,240,180,0.5*Math.PI,1*Math.PI,true);
+
+    ctxBorder.strokeStyle = "rgba(255,255,255,0.85)";
+    //ctxBorder.quadraticCurveTo(70,410,240,420);
+    ctxBorder.lineTo(85,385);
+    ctxBorder.lineTo(240,420)
+    ctxBorder.lineWidth = 7.5;
+    ctxCenter.lineJoin = "round";
+    ctxBorder.stroke();
+    ctxBorder.closePath();
+
+    //getDoubleBorderCircle("rgb(255,255,255)",180,7.5,ctxBorder,240,240,1)
+}
+
 // 
 function getCenterFill(rgbV1,r,context,xPos,yPos){ //给一个什么参数，颜色值呗 亦或是可以考虑那个  
     // drawBackground("(0,198,237)",ctx,300,300); 
