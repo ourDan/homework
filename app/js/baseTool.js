@@ -35,14 +35,14 @@ function openAndClose(changeNums,times,long,targets){  // 这个就是  需要 �
         for(var i = 0,len = targets.length;i<len;i++){
             targets[i].style.width = 2*positionB.x + "px";
             targets[i].style.height = 2*positionB.y + "px";
-            targets[i].style.left = 300 - (positionB.x)  + "px";
-            targets[i].style.top = 300 - (positionB.y)  + "px";
+            targets[i].style.left = 240 - (positionB.x)  + "px";
+            targets[i].style.top = 240 - (positionB.y)  + "px";
         }
         
         //关于 border的 变化的 操作 
-        positionB.c = positionB.y / 300;
+        positionB.c = positionB.y / 240;
         //console.log(positionB.c);
-        getDoubleBorderCircle("rgb(255,255,255)",150,6,targets[0].getContext("2d"),300,300,positionB.c);
+        getDoubleBorderCircle("rgb(255,255,255)",180,7.5,targets[0].getContext("2d"),240,240,positionB.c);
         // getDoubleBorderCircle(rgbv,r,lineWidth,context,xPos,yPos,a1){ 
 
         if(positionB.y == 1){
@@ -64,8 +64,7 @@ function easyOpenAndClose(changeNums,times,long,targets){ // 这个是没有 外
     function init(){ 
         //console.log(xp,yp,"this is in B")
         positionB = {x:changeNums[0][0],y:changeNums[1][0]};
-        //targetCenter = document.getElementById("picCenter");
-        //targetBorder = document.getElementById("picBorder");
+        console.log(positionB,changeNums)
         
         scaleB = new TWEEN.Tween(positionB)
                     .to({x:changeNums[0][1],y:changeNums[1][1]},long)  // 不知道为什么 动画效果受到时间的影响太多 太多                                            
@@ -86,24 +85,22 @@ function easyOpenAndClose(changeNums,times,long,targets){ // 这个是没有 外
         for(var i = 0 , len = targets.length;i < len;i++){
             targets[i].style.width = positionB.x*2 + "px";
             targets[i].style.height = positionB.y*2 + "px";
-            targets[i].style.left = 300 - (positionB.x)  + "px";
-            targets[i].style.top = 300 - (positionB.y)  + "px";
+            targets[i].style.left = 240 - (positionB.x)  + "px";
+            targets[i].style.top = 240 - (positionB.y)  + "px";
         }
-        if(positionB.c == 1){
-            scaleB.stop(); 
-        }
+
     }
 }
 
 function singleMove(changeNums,targets,long){ // 这里指的是 单个target或 多个target，但是具有相同的[[xo,x1],[y0,y1]]的这种 要不然实在是没有必要都写进同一个吧 
-    console.log(changeNums,"this is changeNums")    
+    //console.log(changeNums,"this is changeNums")    
 
     var position;
     var target;
     var tweenToLeft,tweenToRight;
     var xValue = changeNums[0],
         yValue = changeNums[1];
-    console.log(xValue,yValue)
+    //  console.log(xValue,yValue)
 
     init();
     animateA();
@@ -142,7 +139,7 @@ function singleMove(changeNums,targets,long){ // 这里指的是 单个target或
 function lotsMove(changeNums,target,long){  // cahnges = [{target:node1,changeArray:[[x0,x1],[y0,y1]]},{},.....{}]
     // 这个先别写这么 别开太多坑
     // 结果还是去吧坑填了 
-    //console.log(changeNums,"this is changeNums") ;
+    console.log(changeNums,"this is changeNums") ;
     var position;
     var target;
     var tweenToLeft,tweenToRight;
@@ -169,8 +166,8 @@ function lotsMove(changeNums,target,long){  // cahnges = [{target:node1,changeAr
 
     function update(){
         
-            target.style.width = 600 + "px";
-            target.style.height = 600 + "px";
+            target.style.width = 480 + "px";
+            target.style.height = 480 + "px";
             target.style.left = position.x + "px";
             target.style.top = position.y + "px";
             console.log(position.x,position.y,"my next position")
@@ -184,6 +181,13 @@ function lotsMove(changeNums,target,long){  // cahnges = [{target:node1,changeAr
         }
     } 
 }
+
+function blink(times,long){   // 毕竟这个眨眼是不用考虑是 只有谁 在眨 而且 我觉得这个眨眼其实没有单独写出来的意思 
+    console.log("没有直接去写blink 而是去写");
+
+    
+}
+
 
 // 一个基础的函数  主要根据参数 来 控制 变大或者 变小 但是挤压却可以拆解为x轴变大，y轴变大 ，或者等比例变大，亦或是不等比例变大，所以说，变化参数的抽象能力很重要
 // changeNums 的数据结构这么设计就好了 [[x1,x2],[y1,y2]] 好像只能这么设计？ 万能接口？ 这样真的好么？有谁这么设计接口？  要是不变化却这么写 岂不是闷声吃大亏
@@ -217,15 +221,113 @@ function moreOrLess(changeNums,targets,times,long){  // 传入参数分别是 x,
         //关于 center的 变化的 操作
         for(var i = 0,len = targets.length;i<len;i++){
             targets[i].style.width = 2*position.rX + "px";
-            targets[i].style.height = 2*osition.rY + "px";
-            targets[i].style.left = 300 - ( position.rX /2)  + "px";
-            targets[i].style.top = 300 - (position.rY /2)  + "px";
+            targets[i].style.height = 2*position.rY + "px";
+            targets[i].style.left = 240 - ( position.rX )  + "px";
+            targets[i].style.top = 240 - (position.rY )  + "px";
+            console.log(targets[i].style.width,targets[i].style.height,targets[i].style.left,targets[i].style.top)
         }
-        if(position.ry == 300){
+        if(position.ry == changeNums[1][1]){
             scaleA.stop();
         }               
     }
+}
 
+
+function upAndDown(changeNums,targets,times,long){
+    var position;
+    var moveA;
+    var times = 0;
+        //tweenToRight;
+
+    init();
+    animate();
+
+    function init(){ 
+        position = {rX:changeNums[0][0],rY:changeNums[1][0]};
+        moveA = new TWEEN.Tween(position)
+                    .to({rX:changeNums[0][1],rY:changeNums[1][1]},long)  // 不知道为什么 动画效果受到时间的影响太多 太多           
+                    .yoyo(true)                                                 
+                    .easing(TWEEN.Easing.Quartic.InOut)
+                    .onUpdate(updateA)
+                    .repeat(times+3);
+        moveA.start();  
+    }
+
+    function animate(time){
+        requestAnimationFrame(animate);
+        TWEEN.update(time);
+    }
+
+    function updateA(){
+        //关于 center的 变化的 操作
+        for(var i = 0,len = targets.length;i<len;i++){
+           // targets[i].style.width = 2*position.rX + "px";
+           // targets[i].style.height = 2*position.rY*0.3 + "px";
+            //targets[i].style.left = 300 - ( position.rX )  + "px";
+            targets[i].style.top = (position.rY)  + "px";
+        }
+        console.log(position.rY,changeNums[1][1])
+        if(position.rY == changeNums[1][1]){
+            //moveA.stop();
+            if(times == 0){ 
+                drawSmileBorder() //就是说 把 这个转化 为 半拉的那个 这里需要优化下 边框的 宽度 strokeStyle ; ctxCenter 的 fillStyle 这两个都要和前面的接轨
+                times = 1 ;
+            }
+        }    
+        
+
+        // 底下的 
+        function drawSmileBorder(){  //假设x为 我们所要的参数 建立数学模型 我认为 x用来表示 表示 
+
+            //alert("test")
+            ctxBorder.clearRect(0,0,480,480);
+            ctxCenter.clearRect(0,0,480,480);
+            ctxCenter.lineWidth = 6.5;
+            ctxCenter.beginPath();
+            ctxCenter.lineJoin = "round";
+            ctxCenter.arc(240,240,180,0,Math.PI,true);
+            //ctxCenter.lineTo(240-Math.sqrt(100*100-50*50),290);
+            //ctxCenter.lineTo(240,240);
+            //ctxCenter.lineTo(240+Math.sqrt(100*100-50*50),290);
+            ctxCenter.bezierCurveTo(60,330,140,222,240,230);
+            ctxCenter.bezierCurveTo(340,222,420,330,420,240);
+
+
+            ctxCenter.strokeStyle = "rgba(255,255,255,0.9)";
+            ctxCenter.fillStyle ="rgba(255,255,255,0.9)";
+
+
+
+            ctxCenter.stroke();
+              //ctxCenter.fill();
+            ctxCenter.closePath();
+
+
+            ctxCenter.beginPath();
+
+            var radialgradient = ctxCenter.createRadialGradient(240,240,0,240,240,90);
+            radialgradient.addColorStop(0,"rgba(255,0,0,0.8)");
+            radialgradient.addColorStop(0.7,"rgba(255,0,0,0.6)");
+            radialgradient.addColorStop(1.0,"rgba(255,0,0,0.01)");
+            ctxCenter.shadowBlur=24;
+            ctxCenter.shadowColor="red";
+
+            ctxCenter.lineJoin = "round";
+            ctxCenter.arc(240,240,100,0,Math.PI,true);
+            ctxCenter.quadraticCurveTo(195,225,240,223);
+            ctxCenter.quadraticCurveTo(285,225,320,240)
+
+            ctxCenter.strokeStyle = "rgba(255,0,0,0.3)";
+            ctxCenter.lineWidth = 5;
+           // ctxCenter.stroke();
+
+
+            ctxCenter.fillStyle = radialgradient;
+            ctxCenter.fill();
+            ctxCenter.closePath();
+            
+        }           
+    }
 }
 
 function disappear(changeNums,targets,times,long){  // 传入参数分别是 x,y的坐标的变化的数组 | 目标数组 | 持续几次 | 单次动画的时长 
@@ -259,148 +361,14 @@ function disappear(changeNums,targets,times,long){  // 传入参数分别是 x,y
         for(var i = 0,len = targets.length;i<len;i++){
             targets[i].style.width = 2*position.rX + "px";
             targets[i].style.height = 2*position.rY*0.3 + "px";
-            targets[i].style.left = 300 - ( position.rX )  + "px";
-            targets[i].style.top = 300 - (position.rY )*0.3  + "px";
+            targets[i].style.left = 240 - ( position.rX )  + "px";
+            targets[i].style.top = 240 - (position.rY )*0.3  + "px";
         }
-        if(position.ry == 300){
+        if(position.ry == 240){
             scaleA.stop();
         }               
     }
-
 }
-
-function upAndDown(changeNums,targets,times,long){
-    var position;
-    var moveA;
-    var times = 0;
-        //tweenToRight;
-
-    init();
-    animate();
-
-    function init(){ 
-        position = {rX:changeNums[0][0],rY:changeNums[1][0]};
-        moveA = new TWEEN.Tween(position)
-                    .to({rX:changeNums[0][1],rY:changeNums[1][1]},long)  // 不知道为什么 动画效果受到时间的影响太多 太多           
-                    //.yoyo(true)                                                 
-                    .easing(TWEEN.Easing.Quartic.InOut)
-                    .onUpdate(updateA)
-                    .repeat(0);
-        moveA.start();  
-    }
-
-    function animate(time){
-        requestAnimationFrame(animate);
-        TWEEN.update(time);
-    }
-
-    function updateA(){
-        //关于 center的 变化的 操作
-        for(var i = 0,len = targets.length;i<len;i++){
-           // targets[i].style.width = 2*position.rX + "px";
-           // targets[i].style.height = 2*position.rY*0.3 + "px";
-            //targets[i].style.left = 300 - ( position.rX )  + "px";
-            targets[i].style.top = 300 - (position.rY)  + "px";
-        }
-        if(position.ry == changeNums[1][1]){
-            scaleA.stop();
-            if(times == 0){ 
-                drawSmileBorder() //就是说 把 这个转化 为 半拉的那个 这里需要优化下 边框的 宽度 strokeStyle ; ctxCenter 的 fillStyle 这两个都要和前面的接轨
-                times = 1 ;
-            }
-        }    
-        
-
-        // 底下的 
-        function drawSmileBorder(){  //假设x为 我们所要的参数 建立数学模型 我认为 x用来表示 表示 
-
-            //alert("test")
-            ctxBorder.clearRect(0,0,480,480);
-            ctxCenter.clearRect(0,0,480,480);
-            ctxCenter.lineWidth = 5;
-            ctxCenter.beginPath();
-            ctxCenter.lineJoin = "round";
-            ctxCenter.arc(240,240,180,0,Math.PI,true);
-            //ctxCenter.lineTo(240-Math.sqrt(100*100-50*50),290);
-            //ctxCenter.lineTo(240,240);
-            //ctxCenter.lineTo(240+Math.sqrt(100*100-50*50),290);
-            ctxCenter.bezierCurveTo(60,330,140,225,240,225);
-            ctxCenter.bezierCurveTo(340,225,420,330,420,240);
-            ctxCenter.strokeStyle = "rgba(255,255,255,0.9)";
-            ctxCenter.fillStyle = "rgba(255,255,255,0.4)";
-            ctxCenter.stroke();
-            //ctxCenter.fill();
-            ctxCenter.closePath();
-
-
-            ctxCenter.beginPath();
-
-            ctxCenter.lineJoin = "round";
-            ctxCenter.arc(240,240,80,0,Math.PI,true);
-            ctxCenter.quadraticCurveTo(195,225,240,223);
-            ctxCenter.quadraticCurveTo(285,225,320,240)
-
-            ctxCenter.fillStyle = "rgba(255,255,255,0.4)";
-            ctxCenter.fill();
-            ctxCenter.closePath();
-            
-        }           
-    }
-}
-
-/*
-function disappear(xPos,yPos,startNum,endNum){
-    var position;
-    var targetCenter,
-        targetBorder;
-    var scaleA,
-        tweenToRight;
-    var xp,yp;
-
-    getPos();
-    init();
-    animate();
-    
-    function getPos(){
-        xp = xPos? xPos : 300;
-        yp = yPos? yPos : 300;
-    }
-
-    function init(){ 
-        position = {x:300,y:startNum,xPos,yPos};
-        targetCenter = document.getElementById("picCenter");
-        targetBorder = document.getElementById("picBorder");
-        scaleA = new TWEEN.Tween(position)
-                    .to({x:300,y:endNum},1600)  // 不知道为什么 动画效果受到时间的影响太多 太多           
-                    //.delay(1000)
-                    .yoyo()                                                 
-                    .easing(TWEEN.Easing.Quartic.InOut)
-                    .onUpdate(updateA);
-        scaleA.start();  
-    }
-
-    function animate(time){
-        requestAnimationFrame(animate);
-        TWEEN.update(time);
-    }
-
-    function updateA(){
-        //关于 center的 变化的 操作
-        targetCenter.style.width = position.x + "px";
-        targetCenter.style.height = position.y + "px";
-        targetCenter.style.left = 300 - (position.x/2)  + "px";
-        targetCenter.style.top = 300 - (position.y/2)  + "px";
-
-        //关于 border的 变化的 操作 
-        targetBorder.style.width = position.x*2 + "px";
-        targetBorder.style.height = position.y*2 + "px";
-        
-        targetBorder.style.left = 300 - (position.x)  + "px";
-        targetBorder.style.top = 300 - (position.y)  + "px";            
-    }
-}
-*/
-
 
 // 这底下是最基础的 简单的 函数 可以被重复调用  
 //  
@@ -415,8 +383,8 @@ function getDoubleBorderCircle(rgbv,r,lineWidth,context,xPos,yPos,a1){
         context.beginPath();
         context.restore();
         context.lineWidth = lineWidth*x;
-        context.strokeStyle = "rgba(255,255,255,0.79)";
-        context.shadowBlur=24; 
+        context.strokeStyle = "rgba(255,255,255,0.49)";
+        context.shadowBlur=14; 
         context.shadowColor="white";
         context.arc(xPos,yPos,r,0,Math.PI*2,false);
         context.stroke();
@@ -437,7 +405,7 @@ function getDoubleBorderCircle(rgbv,r,lineWidth,context,xPos,yPos,a1){
         var a = r;
         var b = r * a1;
         var step = (a > b) ? 1 / a : 1 / b;
-        context.strokeStyle = "rgba(255,255,255,0.9)";
+        context.strokeStyle = "rgba(255,255,255,0.3)";
         context.lineWidth = lineWidth*0.7;
         context.shadowBlur=80;
         context.shadowColor="#00C6ED";
@@ -459,36 +427,33 @@ function getCenterFill(rgbV1,r,context,xPos,yPos){ //给一个什么参数，颜
     // drawBackground("(0,198,237)",ctx,300,300); 
     var rgbv = "rgba"+"("+rgbV1.replace(/\(/g,"").replace(/\)/g,"")+","+0.5+")";
      
-    console.log(context)
+    //console.log(context)
     var radialgradient = context.createRadialGradient(xPos,yPos,0,xPos,yPos,r);
-    radialgradient.addColorStop(0,"rgba(255,255,255,1)");
-     radialgradient.addColorStop(0.2,"rgba(255,255,255,0.99)");
-     radialgradient.addColorStop(0.4,"rgba(255,255,255,0.6)");
-     radialgradient.addColorStop(0.7,"rgba(255,255,255,0.2)");
-     radialgradient.addColorStop(1.0,"rgba(255,255,255,0)");
-     //以上的时间渐变线是我一点点调出来的 只能说勉强做出来效果看看  虽然这个基本封装 
-
-     //drawBackground("(0,198,237)",ctx,xPos,yPos);  
-     context.clearRect(0,0,600,600);   
-     context.beginPath();
+    radialgradient.addColorStop(0,"rgba(255,255,255,0.8)");
+    radialgradient.addColorStop(0.7,"rgba(255,255,255,0.5)");
+    radialgradient.addColorStop(1.0,"rgba(255,255,255,0)");
+     //以上的 白色渐变渐变线 是我一点点调出来的 只能说勉强做出来效果看看  要是修改的话 就得从这里修改了  
+ 
+    context.clearRect(0,0,600,600);   
+    context.beginPath();
      
-     context.restore();
-     context.fillStyle = radialgradient;
-     context.lineWidth = 10;
-     context.strokeStyle = "rgba(0,198,237,0.03)"
-     context.shadowBlur=24;
-     context.shadowColor="white";
-     context.arc(xPos,yPos,r,0,Math.PI*2,false);
+    context.restore();
+    context.fillStyle = radialgradient;
+    context.lineWidth = 10;
+    context.strokeStyle = "rgba(0,198,237,0.03)"
+    context.shadowBlur=24;
+    context.shadowColor="white";
+    context.arc(xPos,yPos,r,0,Math.PI*2,false);
      //console.log(rgbv);
-     context.fill();
-     context.stroke();
-     context.closePath();
+    context.fill();
+    //context.stroke();
+    context.closePath();
 }
 
 //这个就是跟随用的动画的外边框用的      
 //function getFollowBorderCircle(rgbv,r,lineWidth,context,xPos,yPos,a1){ 
     // 还得修改 这次要实现的是时实的跟新 
-function getFollowBorderCircle(rgbv,r,lineWidth,context,x1,y1){ // a1这个参数需要好好搞一搞 实在是 有些 
+function getFollowBorderCircle(rgbv,r,lineWidth,context,x1,y1){ // 
    /* function getScaleFromXY(x,y){
         var a = Math.atan(x/y) < 0 ? Math.atan(x/y) + Math.PI :Math.atan(x/y) ;
         return a
@@ -508,7 +473,7 @@ function getFollowBorderCircle(rgbv,r,lineWidth,context,x1,y1){ // a1这个参�
             return -Math.atan(y/x)+Math.PI
         }
         else if( x < 0 && y > 0){
-        n      return Math.atan(y/x)+Math.PI*1.5
+            return Math.atan(y/x)+Math.PI*1.5
         }
         else if( x > 0 && y < 0){
             return -Math.atan(y/x)
@@ -520,13 +485,7 @@ function getFollowBorderCircle(rgbv,r,lineWidth,context,x1,y1){ // a1这个参�
     //console.log(scaleNum,"scaleNum")
     //传入参数分别是 颜色 边框圆弧的r 线宽 都熟 横坐标 纵坐标  a1 b1 a2 b2 分别是a代表x轴的缩放 b代表y轴的缩放 
     //那么就是得按照画椭圆的写法 横轴 纵轴的长度 r*a1 r*a2  
-    var a1 = 1-((Math.sqrt(x1*x1+y1*y1))*0.5/r) ;
-    
-    //var a1 = 0.8;
-    //console.log(a1,"a1")
-    //console.log(context)
-    //context.translate(300+(window.screen.width-600)/2,300)
-    //context.rotate(scaleNum);
+    var a1 = 1-((Math.sqrt(x1*x1+y1*y1))*0.25/r);
     
     function drawBorderByLinewidth(a){
         var x = a?a:1;
@@ -534,10 +493,10 @@ function getFollowBorderCircle(rgbv,r,lineWidth,context,x1,y1){ // a1这个参�
         context.beginPath();
         context.restore();
         context.lineWidth = lineWidth*x;
-        context.strokeStyle = "rgba(255,255,255,0.19)";
+        context.strokeStyle = "rgba(255,255,255,0.29)";
         context.shadowBlur=24; 
         context.shadowColor="white";
-        context.arc(300,300,r,0,Math.PI*2,false);
+        context.arc(240,240,r,0,Math.PI*2,false);
         context.stroke();
         context.closePath();
     }
@@ -551,7 +510,7 @@ function getFollowBorderCircle(rgbv,r,lineWidth,context,x1,y1){ // a1这个参�
         //  alert("cc")
         //螺旋线绘制椭圆  drawBorderByLinewidth(1);
         context.clearRect(0,0,600,600);
-        drawBorderByLinewidth(1);
+        drawBorderByLinewidth(1.8);
         
         context.beginPath();
         context.restore();
@@ -569,31 +528,29 @@ function getFollowBorderCircle(rgbv,r,lineWidth,context,x1,y1){ // a1这个参�
         // 就是  
         // 用if判断喽
         if(x1>0 ){ // 向右
-            context.moveTo(300, 300+b)
+            context.moveTo(240, 240+b)
             for (var i = 0.5*Math.PI; i < 1.5*Math.PI; i += step){
                 //参数方程为x = a * cos(i), y = b * sin(i)，
                 //参数为i，表示度数（弧度）
-                context.lineTo(300 + a * Math.cos(i), 300 + b * Math.sin(i));
+                context.lineTo(240 + a * Math.cos(i), 240 + b * Math.sin(i));
             }
             //context.closePath();
-            context.arc(300,300,r,1.5*Math.PI,0.5*Math.PI,false);
+            context.arc(240,240,r,1.5*Math.PI,0.5*Math.PI,false);
             
-
             context.stroke();
         }else { // 向左
             for (var i = 1.5*Math.PI; i < 2.5*Math.PI; i += step){
                 //参数方程为x = a * cos(i), y = b * sin(i)，
                 //参数为i，表示度数（弧度）
-                context.lineTo(300 + a * Math.cos(i), 300 + b * Math.sin(i));
+                context.lineTo(240 + a * Math.cos(i), 240 + b * Math.sin(i));
             }
             //context.closePath();
-            context.arc(300,300,r,2.5*Math.PI,1.5*Math.PI,false);
+            context.arc(240,240,r,2.5*Math.PI,1.5*Math.PI,false);
             
-
             context.stroke();
         }
 
         
     }
-   
 }
+   
