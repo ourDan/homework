@@ -269,85 +269,6 @@ function disappear(changeNums,targets,times,long){  // 传入参数分别是 x,y
 
 }
 
-function upAndDown(changeNums,targets,times,long){
-    var position;
-    var moveA;
-    var times = 0;
-        //tweenToRight;
-
-    init();
-    animate();
-
-    function init(){ 
-        position = {rX:changeNums[0][0],rY:changeNums[1][0]};
-        moveA = new TWEEN.Tween(position)
-                    .to({rX:changeNums[0][1],rY:changeNums[1][1]},long)  // 不知道为什么 动画效果受到时间的影响太多 太多           
-                    //.yoyo(true)                                                 
-                    .easing(TWEEN.Easing.Quartic.InOut)
-                    .onUpdate(updateA)
-                    .repeat(0);
-        moveA.start();  
-    }
-
-    function animate(time){
-        requestAnimationFrame(animate);
-        TWEEN.update(time);
-    }
-
-    function updateA(){
-        //关于 center的 变化的 操作
-        for(var i = 0,len = targets.length;i<len;i++){
-           // targets[i].style.width = 2*position.rX + "px";
-           // targets[i].style.height = 2*position.rY*0.3 + "px";
-            //targets[i].style.left = 300 - ( position.rX )  + "px";
-            targets[i].style.top = 300 - (position.rY)  + "px";
-        }
-        if(position.ry == changeNums[1][1]){
-            scaleA.stop();
-            if(times == 0){ 
-                drawSmileBorder() //就是说 把 这个转化 为 半拉的那个 这里需要优化下 边框的 宽度 strokeStyle ; ctxCenter 的 fillStyle 这两个都要和前面的接轨
-                times = 1 ;
-            }
-        }    
-        
-
-        // 底下的 
-        function drawSmileBorder(){  //假设x为 我们所要的参数 建立数学模型 我认为 x用来表示 表示 
-
-            //alert("test")
-            ctxBorder.clearRect(0,0,480,480);
-            ctxCenter.clearRect(0,0,480,480);
-            ctxCenter.lineWidth = 5;
-            ctxCenter.beginPath();
-            ctxCenter.lineJoin = "round";
-            ctxCenter.arc(240,240,180,0,Math.PI,true);
-            //ctxCenter.lineTo(240-Math.sqrt(100*100-50*50),290);
-            //ctxCenter.lineTo(240,240);
-            //ctxCenter.lineTo(240+Math.sqrt(100*100-50*50),290);
-            ctxCenter.bezierCurveTo(60,330,140,225,240,225);
-            ctxCenter.bezierCurveTo(340,225,420,330,420,240);
-            ctxCenter.strokeStyle = "rgba(255,255,255,0.9)";
-            ctxCenter.fillStyle = "rgba(255,255,255,0.4)";
-            ctxCenter.stroke();
-            //ctxCenter.fill();
-            ctxCenter.closePath();
-
-
-            ctxCenter.beginPath();
-
-            ctxCenter.lineJoin = "round";
-            ctxCenter.arc(240,240,80,0,Math.PI,true);
-            ctxCenter.quadraticCurveTo(195,225,240,223);
-            ctxCenter.quadraticCurveTo(285,225,320,240)
-
-            ctxCenter.fillStyle = "rgba(255,255,255,0.4)";
-            ctxCenter.fill();
-            ctxCenter.closePath();
-            
-        }           
-    }
-}
-
 /*
 function disappear(xPos,yPos,startNum,endNum){
     var position;
@@ -508,7 +429,7 @@ function getFollowBorderCircle(rgbv,r,lineWidth,context,x1,y1){ // a1这个参�
             return -Math.atan(y/x)+Math.PI
         }
         else if( x < 0 && y > 0){
-        n      return Math.atan(y/x)+Math.PI*1.5
+            return Math.atan(y/x)+Math.PI*1.5
         }
         else if( x > 0 && y < 0){
             return -Math.atan(y/x)
