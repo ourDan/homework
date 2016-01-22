@@ -494,6 +494,7 @@ function drawBorder(){
 
     ctxBorder.strokeStyle = "rgba(255,255,255,0.85)";
     //ctxBorder.quadraticCurveTo(70,410,240,420);
+
     ctxBorder.lineTo(85,385);
     ctxBorder.lineTo(240,420)
     ctxBorder.lineWidth = 7.5;
@@ -636,3 +637,62 @@ function getFollowBorderCircle(rgbv,r,lineWidth,context,x1,y1){ //
     }
 }
    
+function drawBorderReceive(x,target){
+    console.log("1")
+   // target.clearRect(0,0,480,480);
+    target.beginPath();
+    target.strokeStyle = "rgba(255,255,255,0.8)";
+    ctxBorder.lineWidth = 7.5;
+    target.lineJoin = "round";
+    target.arc(240,240,180,0,1.5*Math.PI,false);
+    //target.quadraticCurveTo(320,160,420,240);
+    //二次的贝塞尔曲线实在是 太 丑 了
+    target.bezierCurveTo(275,65,420-x-20,60+x-20,420-x,60+x);
+    // 现在在 精细 调整 控制点曲线 
+    target.bezierCurveTo(420+20-x,60+20+x,420,200,420,240);
+    target.stroke();
+    target.closePath();
+    
+}
+
+function drawMsgBall(x){
+
+
+    ctxBorder.clearRect(0,0,480,480)
+
+    if( x >= 370){  // 那就是说没有接触了 
+        getDoubleBorderCircle("rgb(255,255,255)",180,7.5,ctxBorder,240,240,1);
+        ctxBorder.beginPath();
+        ctxBorder.arc(x+10,470-x,15,0,Math.PI*2,true);
+        ctxBorder.fillStyle = "red";
+        ctxBorder.fill();
+        ctxBorder.closePath();
+
+
+
+    }else if(x<370){  // 现在接触了 需要做一些动作的优化 
+        drawBorderReceive( ( (360-x) + 60 ),ctxBorder)
+
+        ctxBorder.beginPath();
+        ctxBorder.arc(x+10,470-x,15,0,Math.PI*2,true);
+        ctxBorder.fillStyle = "rgb(255,0,0)";
+
+        ctxBorder.fill();
+        ctxBorder.closePath();
+
+       
+    }
+}
+
+
+function drawEndMsgBall(x){
+    getDoubleBorderCircle("rgb(255,255,255)",180,7.5,ctxBorder,240,240,1);
+    ctxBorder.beginPath();
+    ctxBorder.shadowBlur=0; 
+    ctxBorder.shadowColor="white";
+    ctxBorder.arc(x+100,Math.sqrt(x+10)+90,15,0,Math.PI*2,true);
+    ctxBorder.fillStyle = "red";
+    ctxBorder.fill();
+    ctxBorder.closePath();
+
+}
