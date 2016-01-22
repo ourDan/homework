@@ -18,82 +18,6 @@
     // ----------------------------------------------
     //还是要把 动画内部切换加载的func
 
-    function receiveMessage(long){
-
-        getCenterFill("rgb(255,255,255)",100,ctxCenter,240,240);  // 
-        var position;
-        var scaleA;
-        var scaleB;
-        init();
-        animate();
-
-
-
-        function init(){ 
-            position = {c:440};
-            scaleA = new TWEEN.Tween(position)
-                        .to({c:320},long)  // 不知道为什么 动画效果受到时间的影响太多 太多           
-                        //.yoyo(true)                                                 
-                        .easing(TWEEN.Easing.Quartic.Out)
-                        .onUpdate(updateA)
-                        //.repeat(times);
-            scaleA.start();  
-        }
-
-        function animate(time){
-            requestAnimationFrame(animate);
-            TWEEN.update(time);
-        }
-
-        function updateA(){
-            //关于 center的 变化的 操作
-            console.log(2)
-            drawMsgBall(position.c);
-            if(position.c == 320){
-                scaleA.stop();
-                
-
-                initX();
-                //animateX();
-                animateX(time)
-            }
-
-        }
-
-
-        function initX(){ 
-            position = {c:320};
-            scaleX = new TWEEN.Tween(position)
-                        .to({c:400},long)  // 不知道为什么 动画效果受到时间的影响太多 太多           
-                        //.yoyo(true)                                                 
-                        .easing(TWEEN.Easing.Quartic.Out)
-                        .onUpdate(updateX)
-                        //.repeat(times);
-            scaleX.start();  
-        }
-
-        function animateX(time){
-            requestAnimationFrame(animateX);
-            TWEEN.update(time);
-        }
-        function updateX(){
-            //关于 center的 变化的 操作
-            console.log(2)
-            //drawMsgBall(position.c);
-            drawEndMsgBall(position.c);
-            if(position.c > 365){
-                scaleX.stop();
-                getCenterFill("rgb(255,255,255)",100,ctxCenter,240,240);  // 
-                getDoubleBorderCircle("rgb(255,255,255)",180,7.5,ctxBorder,240,240,1);
-            }
-
-        }
-
-    }
-    receiveMessage(800)
-
-
-
     //------接下来的是 已经组合成 动画.mov 的那种的内容-----------------------
     // 1 跟随.mov 
     //  这个怎么做到实时跟新的 现在是能够给出一个 具体的数据去坐目的 如果是说 这个需要即时的数据变化 ？难道加延时？这个先别思考了 留下来再看看吧
@@ -141,7 +65,7 @@
         getDoubleBorderCircle("rgb(255,255,255)",180,6,ctxBorder,240,240,0) // 画一个 border的 两层 这个
         //
         //scaleAnimation(300,300,15,300);
- 
+
         //  
         var dtd = $.Deferred();
         var wait = function(dtd){
@@ -378,7 +302,7 @@
         }
     }
 
-    //sendMessage()
+    sendMessage()
 
   
 
