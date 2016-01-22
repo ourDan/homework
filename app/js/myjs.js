@@ -90,10 +90,43 @@
         }
 
     }
-    receiveMessage(800)
+    //receiveMessage(800)
 
+    function question(){
+        getCenterFill("rgb(255,255,255)",100,ctxCenter,240,240);  // 
+        getDoubleBorderCircle("rgb(255,255,255)",180,7.5,ctxBorder,240,240,1);
 
-
+        var dtd = $.Deferred();
+        var wait = function(dtd){
+            var taskOne = function(){
+                //openAndClose([[300,300],[300,5],[0.1,0.2]],2,300,[ctxBorderDom,ctxCenterDom])
+                //singleMove([[0,moveXValue],[0,moveYValue]],[ctxCenterDom],300)
+                //lotsMove([[0,moveXValue],[0,moveYValue]],ctxCenterDom,900);
+                easyOpenAndClose([[240,300],[240,300]],2,300,[ctxCenterDom]);
+                setTimeout(function(){
+                    dtd.resolve();  
+                },600) // 难道只能用这个函数 为什么我的动画进程 那就是说 说什么 只有在 动画完成的时候 ，还得 分别去 加载 针对动画类型的函数 难道不是一条线？
+            };
+            taskOne();
+        }
+        
+        dtd.promise(wait);
+        wait.done(function(){
+                //disappear([[300,0],[300,0]],[ctxCenterDom,ctxBorderDom],0,450);
+                //getCenterFill("rgb(255,255,255)",100,ctxCenter,240,240);
+                //NewopenAndClose();openAndClose(changeNums,times,long,targets)
+                //ctxCenter.clearRect(0,0,480,480)//
+                console.log(100)
+                //getCenterFill("rgb(255,255,255)",100,ctxCenter,240,240);
+                //drawQuestionBorder("rgb(255,255,255)",180,6,ctxBorder,240,240)
+                lotsMoveQuestion([[0,55],[0,-55]],ctxCenterDom,800)
+                })
+            .fail(function(){
+                    //getup();
+                })    
+        wait(dtd);   
+    }
+    question()
     //------接下来的是 已经组合成 动画.mov 的那种的内容-----------------------
     // 1 跟随.mov 
     //  这个怎么做到实时跟新的 现在是能够给出一个 具体的数据去坐目的 如果是说 这个需要即时的数据变化 ？难道加延时？这个先别思考了 留下来再看看吧
@@ -380,11 +413,6 @@
 
     //sendMessage()
 
-  
-
-    //然后就是该考虑下如何解决 这个加载机制的问题
-    // 第一次还是建立在jQuery的基础上 
-    
 
     //下面开始调用 动画函数了
     //唤醒 动画

@@ -182,6 +182,54 @@ function lotsMove(changeNums,target,long){  // cahnges = [{target:node1,changeAr
     } 
 }
 
+
+function lotsMoveQuestion(changeNums,target,long){  // cahnges = [{target:node1,changeArray:[[x0,x1],[y0,y1]]},{},.....{}]
+    // 这个先别写这么 别开太多坑
+    // 结果还是去吧坑填了 
+    console.log(changeNums,"this is changeNums") ;
+    var position;
+    var target;
+    var tweenToLeft,tweenToRight;
+    var xValue = changeNums[0],
+        yValue = changeNums[1];
+    //console.log(xValue,yValue)
+
+    init();
+    animateA();
+
+    function init(){ 
+        position = {x:changeNums[0][0],y:changeNums[1][0]};
+        tweenToLeft = new TWEEN.Tween(position)
+                    .to({x:changeNums[0][1],y:changeNums[1][1]},long)  // 不知道为什么 动画效果受到时间的影响太多 太多     
+                    .easing(TWEEN.Easing.Quartic.InOut)
+                    .onUpdate(update);
+        tweenToLeft.start();    
+    } 
+
+    function animateA(time){
+        requestAnimationFrame(animateA);
+        TWEEN.update(time);
+    }
+
+    function update(){
+        
+            target.style.width = 480 + "px";
+            target.style.height = 480 + "px";
+            target.style.left = position.x + "px";
+            target.style.top = position.y + "px";
+            console.log(position.x,position.y,"my next position")
+        
+        
+        //getFollowBorderCircle("rgb(255,255,255)",150,6,ctxBorder,300,300,1-(position.x / 150));
+       drawQuestionBorder("rgb(255,255,255)",180,6,ctxBorder,position.x,position.y)
+        if(position.x == changeNums[0][1]){
+            tweenToLeft.stop();
+            //alert("i am in position")
+        }
+    } 
+}
+
+
 function blink(times,long){   // 毕竟这个眨眼是不用考虑是 只有谁 在眨 而且 我觉得这个眨眼其实没有单独写出来的意思 
     console.log("没有直接去写blink 而是去写");
 
@@ -537,35 +585,7 @@ function getCenterFill(rgbV1,r,context,xPos,yPos){ //给一个什么参数，颜
 //function getFollowBorderCircle(rgbv,r,lineWidth,context,xPos,yPos,a1){ 
     // 还得修改 这次要实现的是时实的跟新 
 function getFollowBorderCircle(rgbv,r,lineWidth,context,x1,y1){ // 
-   /* function getScaleFromXY(x,y){
-        var a = Math.atan(x/y) < 0 ? Math.atan(x/y) + Math.PI :Math.atan(x/y) ;
-        return a
-    }*/
-    //alert("ii")
-    /* 怎么说 这里是 x>0  x<0 这里的问题 , 
 
-
-
-    /* 那个  先把 精准跟随的事情放到后面 先出一个粗略的 
-    function getScaleFromXY(x,y){
-        // 这四个筛选的目的就是说为了 搞定  这个角度的问题 现在 是 因为 Math.atan() 只能返回 -PI/2 ~ PI/2 之间 
-        if(x > 0 && y > 0 ){ // 说明返回的是第一象限
-            return Math.atan(y/x)+Math.PI/2;
-        }
-        else if( x < 0 && y > 0){ // 说明在第二象限
-            return -Math.atan(y/x)+Math.PI
-        }
-        else if( x < 0 && y > 0){
-            return Math.atan(y/x)+Math.PI*1.5
-        }
-        else if( x > 0 && y < 0){
-            return -Math.atan(y/x)
-        }
-
-    }
-    var scaleNum = getScaleFromXY(x1,y1)  // 现在的问题在 这里会 返回 -P/2 - p /2 的值 ，但是 
-    */
-    //console.log(scaleNum,"scaleNum")
     //传入参数分别是 颜色 边框圆弧的r 线宽 都熟 横坐标 纵坐标  a1 b1 a2 b2 分别是a代表x轴的缩放 b代表y轴的缩放 
     //那么就是得按照画椭圆的写法 横轴 纵轴的长度 r*a1 r*a2  
     var a1 = 1-((Math.sqrt(x1*x1+y1*y1))*0.25/r);
@@ -636,6 +656,91 @@ function getFollowBorderCircle(rgbv,r,lineWidth,context,x1,y1){ //
         
     }
 }
+
+function drawQuestionBorder(rgbv,r,lineWidth,context,x1,y1){
+    var a1 = 1-((Math.sqrt(x1*x1+y1*y1))*0.25/r);
+
+    function drawBorderByLinewidth(a){
+        var x = a?a:1;
+        context.clearRect(0,0,600,600);
+        context.beginPath();
+        context.restore();
+        context.lineWidth = lineWidth*x;
+        context.strokeStyle = "rgba(255,255,255,0.59)";
+        context.shadowBlur=24; 
+        context.shadowColor="white";
+        context.arc(240,240,r,0,Math.PI*2,false);
+        context.stroke();
+        context.closePath();
+    }
+
+    if (arguments.length < 6){ //那就是参数没有传递够 说明只需要一层 那就正好 
+        drawBorderByLinewidth(1);
+    }
+    else{
+        //drawBorderByLinewidth(1.4);
+        // shit是 里面那个被更严重压缩了 
+        //  alert("cc")
+        //螺旋线绘制椭圆  drawBorderByLinewidth(1);
+        context.clearRect(0,0,600,600);
+        drawBorderByLinewidth(1.8);
+        
+        context.beginPath();
+        context.restore();
+        var b = r;
+        var a = r * a1;
+        var step = (a > b) ? 1 / a : 1 / b;
+        context.strokeStyle = "rgba(255,255,255,0.9)";
+        context.lineWidth = lineWidth*1.3;
+        context.shadowBlur=80;
+        context.shadowColor="#00C6ED";
+
+        context.moveTo(240, 240+b)
+        for (var i = 0.5*Math.PI; i < 1.5*Math.PI; i += step){
+            //参数方程为x = a * cos(i), y = b * sin(i)，
+            //参数为i，表示度数（弧度）
+            context.lineTo(240 + a * Math.cos(i), 240 + b * Math.sin(i));
+        }
+        for (var i = 1.5*Math.PI; i < 2.5*Math.PI; i += step){
+            //参数方程为x = a * cos(i), y = b * sin(i)，
+            //参数为i，表示度数（弧度）
+            context.lineTo(240 + a * Math.cos(i), 240 + b * Math.sin(i));
+        }
+        context.stroke();
+
+        //context.moveTo(300, 300+b); //从椭圆的左端点开始绘制
+
+        // 问题就来了 这里面的 角度的转化  如何实现的 要看看怎么把 参数写 出去 就是说 基本思路 就是 ，得知道 这个劣弧start的 角度 ，然后是end的角度 接下里 
+        // 就是  
+        // 用if判断喽
+        /*
+        if(x1>0 ){ // 向右
+            context.moveTo(240, 240+b)
+            for (var i = 0.5*Math.PI; i < 1.5*Math.PI; i += step){
+                //参数方程为x = a * cos(i), y = b * sin(i)，
+                //参数为i，表示度数（弧度）
+                context.lineTo(240 + a * Math.cos(i), 240 + b * Math.sin(i));
+            }
+            //context.closePath();
+            context.arc(240,240,r,1.5*Math.PI,0.5*Math.PI,false);
+            
+            context.stroke();
+        }else { // 向左
+            for (var i = 1.5*Math.PI; i < 2.5*Math.PI; i += step){
+                //参数方程为x = a * cos(i), y = b * sin(i)，
+                //参数为i，表示度数（弧度）
+                context.lineTo(240 + a * Math.cos(i), 240 + b * Math.sin(i));
+            }
+            //context.closePath();
+            context.arc(240,240,r,2.5*Math.PI,1.5*Math.PI,false);
+            
+            context.stroke();
+        }
+
+        */
+    }
+}
+
    
 function drawBorderReceive(x,target){
     console.log("1")
