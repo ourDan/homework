@@ -126,7 +126,7 @@
                 })    
         wait(dtd);   
     }
-    question()
+    //question()
     //------接下来的是 已经组合成 动画.mov 的那种的内容-----------------------
     // 1 跟随.mov 
     //  这个怎么做到实时跟新的 现在是能够给出一个 具体的数据去坐目的 如果是说 这个需要即时的数据变化 ？难道加延时？这个先别思考了 留下来再看看吧
@@ -411,6 +411,74 @@
         }
     }
 
+
+    function showWeather(img,place,numArr){
+        // 首先呢 要清空
+        ctxBorder.clearRect(0,0,480,480);
+        ctxCenter.clearRect(0,0,480,480);
+
+        // 然后呢 动画的添加先在这里略过 
+        // 
+         
+
+        function addWeatherMsg(img,place,numArr){  //传进来的参数是 img图片的信息，发生的地方，温度数组  可能的形式("fog","深证"，[22,13])  //为什么要直接写 fog，这样的话可以搞定 
+            var imgUrl = weatherImgUrl(img) ;  // imgUrl = "./fog_icon.png"  字符串形式的
+           
+            // 这里面先把 天气icon 添加进去
+            var spaceShip = new Image();
+            spaceShip.src = imgUrl;
+            console.log(spaceShip);       
+            spaceShip.addEventListener("load",eventSheetLoaded,false);
+            function eventSheetLoaded(){
+                ctxBorder.drawImage(spaceShip,0,0);
+            }
+
+            //然后就是 说 增加 文字信息 增加文字信息都是在 ctxBorder上面进行的 
+            ctxCenter.beginPath();
+            var placeStr = place + "";
+            ctxCenter.font = "30px serif";
+            ctxCenter.fillStyle = "white";
+            ctxCenter.fillText(placeStr,310,220)
+            ctxCenter.closePath();
+
+            //然后就是 说 增加 天气 信息 
+            ctxCenter.beginPath();
+            var templateStr1 = numArr[0] + "" + "°" ;
+            //console.log(templateStr1)
+            ctxCenter.font = "80px serif";
+            ctxCenter.fillStyle = "white";
+            ctxCenter.fillText(templateStr1,180,330)
+            ctxCenter.closePath();
+
+            ctxCenter.beginPath();
+            var templateStr2 = "~" ;
+            //console.log(templateStr1)
+            ctxCenter.font = "70px serif";
+            ctxCenter.fillStyle = "white";
+            ctxCenter.fillText(templateStr2,250,370)
+            ctxCenter.closePath();
+
+            ctxCenter.beginPath();
+            var templateStr3 = numArr[1] + "" + "°" ;
+            //console.log(templateStr1)
+            ctxCenter.font = "50px serif";
+            ctxCenter.fillStyle = "white";
+            ctxCenter.fillText(templateStr3,290,330)
+            ctxCenter.closePath();
+
+        }
+
+        function weatherImgUrl(imgMsg){
+            var urlMsg = "./img/" + imgMsg + "_icon.png";  // 无非就是 加了_icon.png 后缀
+            return urlMsg;
+        }
+
+        addWeatherMsg(img,place,numArr)
+        
+    }
+
+    showWeather("fog","beijng",[0,22])
+
     //sendMessage()
 
 
@@ -574,8 +642,6 @@
         function eventSheetLoaded(){
             ctxCenter.clearRect(0,0,480,480);
             ctxBorder.clearRect(0,0,480,480);
-
-            
             ctxBorder.drawImage(spaceShip,0,0);
         }
         /*
