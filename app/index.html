@@ -1,0 +1,254 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>UI Demo</title>
+
+<style>
+	body{
+		height: 100%;
+		width:100%;
+		/*background:url("./img/xiaoWeiBg.png") no-repeat 50% 1%;*/
+		background-color:rgb(1,2,2);
+	}
+	#xiaoWei{
+		margin:  -370px -370px ;
+		display: block;
+		position: absolute;
+		top:50%;
+		left: 50%
+	}
+
+    #picBack{
+        width:480px;
+        height:480px;
+        margin: -240px -240px;
+        position:absolute;
+        top:50%;
+        left: 50%;
+        background:url("./img/background_blue.png");
+    	
+        border-radius:240px;
+    }
+    #picBorder,#picCenter{
+        position:absolute;
+        top:0px;
+        left:0px;
+        margin :0 auto;
+        display:block;
+          
+    }
+    #printMsg{
+    	color: red;
+    }
+    #printSocket{
+    	color: white;
+    }
+   
+
+</style>
+<script src="js/jquery-1.8.3.min.js"></script>
+
+<script src="socket.io/socket.io.js"></script>
+
+<script type="text/javascript" src="./js/Tween.js"></script>
+<script type="text/javascript" src="./js/RequestAnimationFrame.js"></script>
+<script type="text/javascript" src="./js/stats.min.js"></script>
+</head>
+<body>
+<img id="xiaoWei" src="./img/xiaoWeiBg.png " >
+	<div id="picBack">
+	    <canvas id="picBorder">
+	        一旦看见这个了 那就是真上天了
+	    </canvas >
+
+	    <canvas id="picCenter">
+	        要是真能看见，那可就上天上到头了
+	    </canvas>
+	</div>
+	<div id="printSocket">this will show cmd</div>
+	<div id="printMsg">nothing</div>
+
+	<script type="text/javascript" src="./js/baseTool.js"></script>
+	<script type="text/javascript" src="./js/myjs.js"></script>
+
+	<script>
+
+
+	/*
+	(function(){
+		console.log("1");
+		showPic("weather_rain.png")
+	})()
+
+
+
+	*/
+	/*
+		// 先这么写 全是反模式 我自己都看不下去了 简直不能忍 
+		var xk;
+
+		var uiPrint = document.getElementById("printMsg");
+		var uiPrintCmd = document.getElementById("printSocket");
+		//console.log(uiPrint.innerHTML);
+		//uiPrint.innerHTML = "1111";
+		
+		// socket.io specific code
+		var socket = io.connect("http://192.168.1.244:9527/xiaoweiui",
+		    { 'force new connection': true,
+		        'reconnect': true,
+		        'reconnection delay': 200,
+		        'max reconnection attempts': 10000
+		    });
+
+			socket.on('connect', function () {
+			    showStatus('System', 'connected to the server'); 
+			    socket.emit('nickname', 'uitest');
+			    console.log("i have connected");
+			});
+
+		    socket.on('reconnect', function () {
+		        showStatus('System', 'Reconnected to the server');
+		    });
+
+		    socket.on('reconnecting', function () {
+		        showStatus('System', 'Attempting to re-connect to the server');
+		        socket.emit('nickname', 'uitest');
+		    });
+
+		    socket.on('disconnect', function () {
+		        showStatus('System', 'disconnect to the server');
+		        socket.socket.reconnect();
+		    });
+
+		    socket.on('error', function (e) {
+		        //showStatus('System', e ? e : 'A unknown error occurred');
+		        showStatus('System', 'A unknown error occurred');
+		        socket.socket.disconnect();
+		        socket.socket.reconnect();
+		    });
+
+	    //socket.on('action', message);
+	    function showStatus(){
+	    	console.log(arguments);
+	    	//console.og()
+	    	uiPrint.innerHTML = arguments[0] + " " +arguments[1] ;
+	    	// = argumen
+	    }
+		// here -----
+		socket.on("action",function(action){   //["follow", "x:555;y:51;r:839;b:335"] 现在传进来是一个数组 
+		    //prepareDoCmd(arguments);
+		   
+		    //直接输出在这里
+		    printSocket.innerHTML = arguments[0] + " " + arguments[1];
+
+		    if(!xk ){
+		    	window.cancelAnimationFrame(xk);
+		    }
+			
+		    var myAction = doAction(arguments);
+		    myAction.start();
+		});
+
+		socket.on("weather",function(weather){
+			console.log(arguments); // arguments ["北京"，"晴装多云"，"1","3"]
+
+			var weatherArgs = readWeather(arguments);
+			//就是待会儿得再写一个 readWeather  ; 用来返回 ["fog","beijing",[22,3]] 这样一个参数数组,简直不能傻逼了，因为 
+			showWeather(weatherArgs[0],weatherArgs[1],weatherArgs[2]);
+		})
+
+		socket.on("message",function(message){
+		    //就是说 接受到了 信息 msg = {"name":"type(可能存在的各种值)","参数":"每个参数之间都是，分割"}
+		    //var messageObj = read(message);
+		    //假如说 那个 正在跑一个 然后传命令过来突然让我停了 我也头疼现在怎么写
+		    //根据传进来的参数再 可是我现在只有action  ；如果有了weather ；我在哪里判断会好一些 
+		    //var actionsObj = prepareDoAction(messageObj); //就是说 就是说什么呢 这里面先创建每个动作的对象 对象在动作结束后 自己写个回调去注销 
+		    //console.log("ddd")
+		    prepareDoCmd(message);
+		    //actionsObj.start();
+
+		    // 最后注 这里面 为什么不是所有的 信息都没 集中到这里？
+		}) ;
+*/
+
+		//  测试用例都在这里   ------
+		/*setInterval(function(){
+			getCenterFill("(255,255,255)",100,ctxCenter,240,240); // 画一个 中间的
+			getDoubleBorderCircle("rgb(255,255,255)",180,6,ctxBorder,240,240,0);
+			testBlink(); 
+		},2000)
+ */
+	
+		setTimeout(function(){
+			//getCenterFill("(255,255,255)",100,ctxCenter,240,240); // 画一个 中间的
+			//getDoubleBorderCircle("rgb(255,255,255)",180,6,ctxBorder,240,240,0); // 画一个 border的 两层 这个
+			//getCenterFillNo("(255,255,255)",100,ctxCenter,240,240); // 画一个 中间的
+			// 还是说我 需要搞一个 没有 光晕的,明天来再说吧  
+			//getDoubleBorderCircleNo("rgb(255,255,255)",180,5,ctxBorder,240,240,0);
+			//newOpenAndClose([[240,240],[240,5],[0.1,0.2]],2,300,[ctxBorderDom,ctxCenterDom])
+
+			var actMessage = ["sleep", "x:555;y:51;r:839;b:335"];   // 模拟传入的参数 []
+			var myAction = doAction(actMessage);  // 创建动作对象
+			//调用 
+			myAction.start();
+			//openAndClose([[240,240],[240,5],[0.1,0.2]],2,300,[ctxBorderDom,ctxCenterDom]);
+			/*
+			整体的可以重绘而且一点getDoubleBorderCircle("rgb(255,255,255)",180,7.5,targets[0].getContext("2d"),240,240,positionB.c);
+			*/
+			//testBlink(); 
+			//singleMove([ [ startNum[0],0 ],[ startNum[1],0 ] ],[ctxCenterDom],100)
+			// 就是说 这个是可以 
+		},500);
+
+		setTimeout(function(){
+			//var actMessage = ["send_msg","i s"];
+			//var myAction = doAction(actMessage);
+
+			//myAction.start();
+		},4000)
+
+		//	drawCenterBlink(0.4,100)
+		// 	var actMessage = ["question", "x:555;y:51;r:839;b:335"];   // 模拟传入的参数 []
+		//  var myAction = doAction(actMessage);  // 创建动作对象
+		// 	调用 
+		    //myAction.start();
+		   	// singleMove([ [ startNum[0],0 ],[ startNum[1],0 ] ],[ctxCenterDom],100) 
+				//var messageObj = readAnd(msg);
+		        //console.log(messageObj);
+		        //var actionsObj = prepareDoAction(messageObj); 
+		        //console.log(actionsObj);
+		        //actionsObj.start();
+		//------ 
+		// end -------
+	
+
+		//------添加 stats.js 来监听用的----------- 
+		var stats = new Stats();
+		stats.setMode(0);	
+		console.log(stats);
+		document.body.appendChild(stats.domElement);
+		//stats.begin();
+		//stats.domElement.click();
+		var update = function () {
+		    stats.begin();
+		    // monitored code goes here
+		    stats.end();
+		    requestAnimationFrame( update );
+		};
+
+		requestAnimationFrame( update );
+		// ------监控结束--------
+
+		//--[REASDME]---
+			// 这里  就是关于表情版本的处理的 一些标注 和说明 我也不知道为啥一定要放在这里 可能会比较容易找到 
+			// 先在 关于 eye 的基本的使用,目前的 设计 因为 大家都不喜欢 带 模糊渐变的动效，
+				// 我写了getCenterFillNo ||  getCenterFill  画一个 中间的，getDoubleBorderCircleNo || getDoubleBorderCircle 这两个来作为最基础的绘制 eye的底层工具 
+				// 这里可以按照大家的喜欢来酌情删除 
+				// 甚至 可以按照 外边圆，就只有 一点点的光晕，这个正在做,同时调整好 低耦合 的接口；可以现调整，现使用  
+		//-------
+	</script>
+
+
+</body>
+</html>
