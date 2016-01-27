@@ -188,7 +188,7 @@
 			//getDoubleBorderCircleNo("rgb(255,255,255)",180,5,ctxBorder,240,240,0);
 			//newOpenAndClose([[240,240],[240,5],[0.1,0.2]],2,300,[ctxBorderDom,ctxCenterDom])
 
-			var actMessage = ["blink", "x:555;y:51;r:839;b:335"];   // 模拟传入的参数 []
+			var actMessage = ["sleep", "x:555;y:51;r:839;b:335"];   // 模拟传入的参数 []
 			var myAction = doAction(actMessage);  // 创建动作对象
 			//调用 
 			myAction.start();
@@ -199,7 +199,15 @@
 			//testBlink(); 
 			//singleMove([ [ startNum[0],0 ],[ startNum[1],0 ] ],[ctxCenterDom],100)
 			// 就是说 这个是可以 
-		},1000);
+		},500);
+
+		setTimeout(function(){
+			//var actMessage = ["send_msg","i s"];
+			//var myAction = doAction(actMessage);
+
+			//myAction.start();
+		},4000)
+
 		//	drawCenterBlink(0.4,100)
 		// 	var actMessage = ["question", "x:555;y:51;r:839;b:335"];   // 模拟传入的参数 []
 		//  var myAction = doAction(actMessage);  // 创建动作对象
@@ -217,7 +225,7 @@
 
 		//------添加 stats.js 来监听用的----------- 
 		var stats = new Stats();
-		stats.setMode(2);	
+		stats.setMode(0);	
 		console.log(stats);
 		document.body.appendChild(stats.domElement);
 		//stats.begin();

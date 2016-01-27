@@ -264,7 +264,7 @@ function singleMove(changeNums,targets,long){ // 这里指的是 单个target或
         //getFollowBorderCircle("rgb(255,255,255)",150,6,ctxBorder,300,300,1-(position.x / 150));
 
         if(position.x == changeNums[0][1]){
-            console.log("i am sopt")
+            console.log("i am stop","IN Action singleMove")
             tweenToLeft.stop();
             getCenterFillNo("(255,255,255)",100,ctxCenter,240,240); // 画一个 中间的
             getDoubleBorderCircleNo("rgb(255,255,255)",180,6,ctxBorder,240,240,0); // 画一个 border的 两层 这个
